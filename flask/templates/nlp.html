@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Natural Language Grocery Recommender</title>
+
+    <link rel='stylesheet' type='text/css' href="{{ url_for('static', filename='style.css') }}">
+
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.5/build/pure-min.css" integrity="sha384-LTIDeidl25h2dPxrB2Ekgc9c7sEC3CWGM6HeFmuDNUjX76Ert4Z4IY714dhZHPLd" crossorigin="anonymous">
+
+</head>
+
+<h1>NLP Grocery Recommender</h1>
+
+<body>
+
+<div class='main'>
+    <p>Please enter search words and I will return recommended products.</p>
+    <form class="pure-form" method="POST" action="/nlp">
+    <br>
+    <input type="text" name="searchwords"><br>
+    <br/>
+    <button type="submit" class="pure-button pure-button-primary" value="Submit">Submit</button>
+    </form>
+</div>
+
+<br>
+
+<div class='main'>
+    {% if (request.method == 'POST') and ('searchwords' in request.form) and (num_results==0) %}
+        <p>No similar products found.  Please refine your search terms and try again!</p>
+    {% endif %}
+
+    {% if (request.method == 'POST') and (num_results>0) %}
+    <div class="container">
+        {{ nlp|safe }}
+    </div>   
+    {% endif %}
+    <br/>
+    <form class="pure-form" method="POST" action="/svd">
+        <button type="submit" class="pure-button pure-button-active" value="Submit">Try the SVD</button>
+    </form>    
+    <br/>
+    <form class="pure-form" method="POST" action="/">
+        <button type="submit" class="pure-button pure-button-active" value="Submit">Home</button>
+    </form>   
+    <br>
+</div>
+
+
+
+</body>
